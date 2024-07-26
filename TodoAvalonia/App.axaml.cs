@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
@@ -19,7 +20,7 @@ public partial class App : Application
     }
 
     private readonly MainWindowViewModel _mainWindowViewModel = new();
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -35,6 +36,21 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+
+        await InitMainModelViewAsync();
+    }
+
+
+    private async Task InitMainModelViewAsync()
+    {
+        var loadedItems = await FileService.LoadAsync();
+
+        if (loadedItems is null) return;
+
+        foreach (var item in loadedItems)
+        {
+            _mainWindowViewModel.TodoItems.Add(new TodoItemViewModel(item));
+        }
     }
     
     private bool _isReadyToClose;
