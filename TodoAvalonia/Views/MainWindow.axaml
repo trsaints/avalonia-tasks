@@ -32,7 +32,7 @@
                                 Command="{Binding #Root.((vm:MainWindowViewModel)DataContext).RemoveItemCommand}"
                                 CommandParameter="{Binding .}"
                                 Grid.Column="1">
-                                Delete
+                                <PathIcon Data="{DynamicResource DeleteIconData}" Foreground="DarkRed"></PathIcon>
                             </Button>
                         </Grid>
                     </DataTemplate>
